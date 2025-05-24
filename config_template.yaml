@@ -1,0 +1,136 @@
+# =============================================================================
+# Epigenome-Transcriptome Integration Analysis Configuration
+# =============================================================================
+
+# PROJECT SETTINGS
+project:
+  name: "Epigenome-Transcriptome Integration"
+  version: "1.0.0"
+  author: "Lauren Urban"
+  description: "Integration analysis of DNA methylation and gene expression"
+
+# INPUT DATA PATHS
+data_paths:
+  # Gene expression data
+  deps_file: "data/DEPs_expression_data.txt"
+  
+  # Methylation data by time point
+  methylation:
+    day1:
+      promoters: "data/DMCs_day1_promoters.txt"
+      genes: "data/DMCs_day1_genes.txt"
+    week1:
+      promoters: "data/DMCs_week1_promoters.txt" 
+      genes: "data/DMCs_week1_genes.txt"
+  
+  # GO/Pathway enrichment data
+  enrichment:
+    go_results: "data/GO_enrichment_results.xlsx"
+    kegg_results: "data/KEGG_pathway_results.xlsx"
+
+# OUTPUT DIRECTORIES
+output_paths:
+  results: "results/"
+  plots: "results/plots/"
+  tables: "results/tables/"
+  reports: "results/reports/"
+
+# ANALYSIS PARAMETERS
+parameters:
+  # Sample information
+  samples:
+    control: "nsc_avg"    # Neural stem cells (baseline)
+    timepoints: 
+      - "d1_avg"          # Day 1
+      - "wk1_avg"         # Week 1
+  
+  # Significance thresholds
+  thresholds:
+    methylation_diff: 20        # Minimum methylation difference (%)
+    qvalue: 0.01               # Q-value threshold for DMCs
+    expression_fc: 1           # Log2 fold change threshold for DEPs
+    pvalue: 0.05              # P-value threshold
+    
+  # Clustering parameters
+  clustering:
+    k_means: 3                # Number of k-means clusters
+    distance_method: "correlation"  # Distance metric for clustering
+    
+  # Visualization parameters
+  plotting:
+    width: 12                 # Plot width (inches)
+    height: 8                 # Plot height (inches)
+    dpi: 300                  # Resolution
+    font_size: 10             # Base font size
+    
+  # Top genes/terms to display
+  display:
+    top_genes_label: 20       # Number of genes to label in plots
+    top_go_terms: 20          # Number of GO terms to show
+    top_pathways: 15          # Number of pathways to display
+
+# GENOMIC REGIONS
+regions:
+  promoters:
+    name: "Promoters"
+    description: "Promoter regions (-2kb to +500bp from TSS)"
+  gene_bodies:
+    name: "Gene_bodies" 
+    description: "Gene body regions (TSS to TES)"
+
+# COLOR SCHEMES
+colors:
+  # Expression significance
+  expression:
+    upregulated: "#FF6B6B"    # Red
+    downregulated: "#4ECDC4"  # Teal
+    not_significant: "#95A5A6" # Gray
+    
+  # Methylation status  
+  methylation:
+    hypermethylated: "#E74C3C"   # Red
+    hypomethylated: "#3498DB"    # Blue
+    unchanged: "#BDC3C7"         # Light gray
+    
+  # Heatmap colors
+  heatmap:
+    low: "#3498DB"          # Blue
+    mid: "#FFFFFF"          # White  
+    high: "#E74C3C"         # Red
+
+# QUALITY CONTROL
+quality_control:
+  min_coverage: 5             # Minimum read coverage
+  max_missing: 0.2           # Maximum missing data proportion
+  outlier_detection: true     # Enable outlier detection
+  
+# STATISTICAL METHODS
+statistics:
+  correlation_method: "pearson"     # Correlation method
+  multiple_testing: "BH"           # Multiple testing correction
+  clustering_method: "complete"    # Hierarchical clustering method
+
+# REPORTING
+reporting:
+  generate_html: true         # Generate HTML report
+  include_plots: true         # Include plots in report
+  include_tables: true        # Include summary tables
+  
+# COMPUTATIONAL RESOURCES
+resources:
+  parallel_processing: true   # Enable parallel processing
+  num_cores: 4               # Number of CPU cores to use
+  memory_limit: "8GB"        # Memory limit
+
+# FILE FORMATS
+formats:
+  input_delimiter: "\t"       # Input file delimiter
+  output_format: "tsv"        # Output table format
+  plot_format: "png"          # Plot output format
+  
+# ADVANCED OPTIONS
+advanced:
+  seed: 42                    # Random seed for reproducibility
+  verbose: true               # Verbose output
+  debug_mode: false           # Debug mode
+  save_intermediate: true     # Save intermediate results
